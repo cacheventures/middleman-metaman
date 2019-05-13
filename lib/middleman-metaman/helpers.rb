@@ -11,8 +11,10 @@ module Middleman
         @meta_tags ||= ActiveSupport::HashWithIndifferentAccess.new
         @meta_tags[:og] ||= ActiveSupport::HashWithIndifferentAccess.new
         @meta_tags[:twitter] ||= ActiveSupport::HashWithIndifferentAccess.new
-        site_meta_tags = (data['meta_tags'] || {}).with_indifferent_access
-        @meta_tags = site_meta_tags.merge(@meta_tags)
+        if data['meta_tags']
+          site_meta_tags = data['meta_tags'].with_indifferent_access
+          @meta_tags = site_meta_tags.merge(@meta_tags)
+        end
 
         # get meta from translation
         t_page = current_page.url.gsub('-', '_').gsub('/', '.')
@@ -27,7 +29,7 @@ module Middleman
           }.compact
         )
 
-        @meta_tags.merge!(@set_meta_tags)
+        @meta_tags.merge!(@set_meta_tags) if @set_meta_tags
 
         html = []
         @meta_tags[:title] = full_title(@meta_tags[:title])

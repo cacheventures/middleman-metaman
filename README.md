@@ -41,23 +41,23 @@ to highest is defaults (data/meta_tags.yml), translations, front matter,
 page specific variables set via `set_meta_tags` in
 a template.
 
-## Setting Defaults
+### Setting Defaults
 
 The defaults file lives in `data/meta_tags.yml`. You can set any meta tag you
 would like. It will be converted to a hash and merged during page generation.
 Nested parameters like `{ og: { title: 'My Title' } }` will become `og:title`.
 
-## Setting via Templates
+### Setting via Templates
 
 ```erb
 <% set_page_meta(title: 'My Title', og: { image: 'meta-image.png' } )
 ```
 
-## Setting via Front Matter
+### Setting via Front Matter
 
 Only the `title` and `description` can be set via Front Matter at this time.
 
-## Setting via Translations
+### Setting via Translations
 
 The gem will look for translations like so. If your page is called
 `thank_you.html.erb` your translations should go under en > thank_you > meta > `...`
