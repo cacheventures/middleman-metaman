@@ -1,19 +1,19 @@
 module Middleman::Metaman::Helpers
 
   def set_meta_tags(tags)
-    @meta_tags ||= ActiveSupport::HashWithIndifferentAccess.new
-    @meta_tags.merge!(tags)
+    @set_meta_tags ||= ActiveSupport::HashWithIndifferentAccess.new
+    @set_meta_tags.merge!(tags)
   end
 
   def display_meta_tags
     @meta_tags ||= ActiveSupport::HashWithIndifferentAccess.new
     @meta_tags[:og] ||= ActiveSupport::HashWithIndifferentAccess.new
     @meta_tags[:twitter] ||= ActiveSupport::HashWithIndifferentAccess.new
-    site_meta_tags = (data.meta_tags || {}).with_indifferent_access
+    site_meta_tags = (data['meta_tags'] || {}).with_indifferent_access
     @meta_tags = site_meta_tags.merge(@meta_tags)
 
     # get meta from translation
-    t_page = current_page.path.gsub('.html', '').gsub('-', '_').gsub('/', '.')
+    t_page = current_page.url.gsub('-', '_').gsub('/', '.')
     t_key = "#{t_page}.meta"
     @meta_tags.merge!(I18n.t(t_key)) if I18n.exists?(t_key)
 
@@ -25,6 +25,7 @@ module Middleman::Metaman::Helpers
       }.compact
     )
 
+    @meta_tags.merge!(@set_meta_tags)
 
     html = []
     @meta_tags[:title] = full_title(@meta_tags[:title])
@@ -49,6 +50,8 @@ module Middleman::Metaman::Helpers
   def full_title(title)
     if title.is_a?(Hash) && title[:site_name].nil?
       title[:title]
+    elsif @meta_tags[:site_name].nil?
+      title
     else
       title + " #{@meta_tags[:separator] || '|'} " + @meta_tags[:site_name]
     end
