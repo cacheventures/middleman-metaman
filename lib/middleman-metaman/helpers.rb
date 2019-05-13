@@ -35,6 +35,7 @@ module Middleman::Metaman::Helpers
       og: meta_open_graph,
       twitter: meta_twitter
     )
+
     meta_hash.each do |key, value|
       next unless value
 
@@ -75,7 +76,7 @@ module Middleman::Metaman::Helpers
   def generate_meta_array(key, value)
     html = []
     value.each do |av|
-      generate_meta_html(key, av)
+      html.push generate_meta_html(key, av)
     end
     html
   end
