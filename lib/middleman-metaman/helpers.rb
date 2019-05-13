@@ -9,7 +9,7 @@ module Middleman::Metaman::Helpers
     @meta_tags ||= ActiveSupport::HashWithIndifferentAccess.new
     @meta_tags[:og] ||= ActiveSupport::HashWithIndifferentAccess.new
     @meta_tags[:twitter] ||= ActiveSupport::HashWithIndifferentAccess.new
-    site_meta_tags = data.meta_tags.with_indifferent_access
+    site_meta_tags = (data.meta_tags || {}).with_indifferent_access
     @meta_tags = site_meta_tags.merge(@meta_tags)
 
     # get meta from translation
@@ -89,8 +89,9 @@ module Middleman::Metaman::Helpers
   # generate open graph meta
   def meta_open_graph
     og = ActiveSupport::HashWithIndifferentAccess.new
-    og[:type] = default_value(:og, :type)
-    og[:url] = default_value(:og, :url) || config[:host]
+    og[:url] = default_value(:og, :url) || host
+    og[:type] = default_value(:og, :type, 'website')
+    og[:site_name] = default_value(:og, :site_name)
     og[:title] = default_value(:og, :title)
     og[:description] = default_value(:og, :description)
     og[:image] = default_value(:og, :image)
@@ -105,7 +106,7 @@ module Middleman::Metaman::Helpers
   # generate twitter meta
   def meta_twitter
     twitter = ActiveSupport::HashWithIndifferentAccess.new
-    twitter[:url] = default_value(:twitter, :url) || config[:host]
+    twitter[:url] = default_value(:twitter, :url) || host
     twitter[:title] = default_value(:twitter, :title)
     twitter[:description] = default_value(:twitter, :description)
     twitter[:image] = default_value(:twitter, :image)
@@ -119,11 +120,15 @@ module Middleman::Metaman::Helpers
 
   # get the meta image url
   def meta_image_url(image)
-    "#{config[:host]}#{image_path(image)}" if image
+    "#{host}#{image_path(image)}" if image
   end
 
-  def default_value(scope, key)
-    @meta_tags[scope][key] || @meta_tags[key]
+  def default_value(scope, key, default = nil)
+    @meta_tags[scope][key] || @meta_tags[key] || default
+  end
+
+  def host
+    Middleman::MetamanExtension.options.host
   end
 
 end
