@@ -13,7 +13,7 @@ module Middleman
         @meta_tags[:twitter] ||= ActiveSupport::HashWithIndifferentAccess.new
         if data['meta_tags']
           site_meta_tags = data['meta_tags'].with_indifferent_access
-          @meta_tags = site_meta_tags.merge(@meta_tags)
+          @meta_tags.merge!(site_meta_tags)
         end
 
         # get meta from translation
@@ -40,6 +40,7 @@ module Middleman
           og: meta_open_graph,
           twitter: meta_twitter
         )
+        binding.pry
 
         meta_hash.each do |key, value|
           next unless value
