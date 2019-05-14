@@ -96,7 +96,7 @@ module Middleman
 
       # determine key for meta tag based on name
       def meta_key(key)
-        key.match?(/^(og|music|video|article|book|profile):/i) ? 'propery' : 'name'
+        key.match?(/^(og|music|video|article|book|profile):/i) ? 'property' : 'name'
       end
 
       # generate open graph meta
