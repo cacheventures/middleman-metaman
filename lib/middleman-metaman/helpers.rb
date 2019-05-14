@@ -40,7 +40,6 @@ module Middleman
           og: meta_open_graph,
           twitter: meta_twitter
         )
-        binding.pry
 
         meta_hash.each do |key, value|
           next unless value
