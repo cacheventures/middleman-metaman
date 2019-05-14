@@ -54,10 +54,10 @@ module Middleman
       def full_title(title)
         if title.is_a?(Hash) && title[:site_name].nil?
           title[:title]
-        elsif @meta_tags[:site_name].nil?
-          title
-        else
+        elsif title && @meta_tags[:site_name]
           title + " #{@meta_tags[:separator] || '|'} " + @meta_tags[:site_name]
+        else
+          title
         end
       end
 
@@ -113,7 +113,6 @@ module Middleman
       # generate twitter meta
       def meta_twitter
         twitter = ActiveSupport::HashWithIndifferentAccess.new
-        twitter[:url] = default_value(:twitter, :url) || host
         twitter[:title] = default_value(:twitter, :title)
         twitter[:description] = default_value(:twitter, :description)
         twitter[:image] = default_value(:twitter, :image)
