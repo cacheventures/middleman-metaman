@@ -11,6 +11,8 @@ module Middleman
         @meta_tags ||= ActiveSupport::HashWithIndifferentAccess.new
         @meta_tags[:og] ||= ActiveSupport::HashWithIndifferentAccess.new
         @meta_tags[:twitter] ||= ActiveSupport::HashWithIndifferentAccess.new
+        @meta_tags[:canonical] = true
+
         if data['meta_tags']
           site_meta_tags = data['meta_tags'].with_indifferent_access
           @meta_tags.merge!(site_meta_tags)
@@ -34,8 +36,12 @@ module Middleman
         html = []
         @meta_tags[:title] = full_title(@meta_tags[:title])
         html.push content_tag(:title, @meta_tags[:title])
+        if @meta_tags[:canonical]
+          html.push tag(:link, rel: 'canonical', href: current_page.url)
+        end
 
-        excluded_keys = %w(site_name separator title image)
+
+        excluded_keys = %w(site_name separator title image canonical)
         meta_hash = @meta_tags.reject { |k| excluded_keys.include?(k) }.merge(
           og: meta_open_graph,
           twitter: meta_twitter

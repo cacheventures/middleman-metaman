@@ -6,7 +6,6 @@ require 'middleman-metaman/version'
 Gem::Specification.new do |s|
   s.name        = "middleman-metaman"
   s.version     = Middleman::Metaman::VERSION
-  s.platform    = Gem::Platform::RUBY
   s.authors     = ['Jarrett Lusso']
   s.email       = ['jarrett@cacheventures.com']
   s.homepage    = 'https://github.com/cacheventures/middleman-metaman'
@@ -19,9 +18,5 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  # The version of middleman-core your extension depends on
-  s.add_runtime_dependency("middleman-core", [">= 4.2.1"])
-
-  # Additional dependencies
-  # s.add_runtime_dependency("gem-name", "gem-version")
+  s.add_runtime_dependency('middleman-core', ['>= 4.2.1'])
 end
