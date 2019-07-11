@@ -132,7 +132,10 @@ module Middleman
 
       # get the meta image url
       def meta_image_url(image)
-        "#{host}#{image_path(image)}" if image
+        return nil unless image
+        return image unless URI(image).scheme.nil?
+
+        "#{host}#{image_path(image)}"
       end
 
       def default_value(scope, key, default = nil)
