@@ -50,7 +50,7 @@ Nested parameters like `{ og: { title: 'My Title' } }` will become `og:title`.
 ### Setting via Templates
 
 ```erb
-<% set_page_meta(title: 'My Title', og: { image: 'meta-image.png' } )
+<% set_meta_tags(title: 'My Title', og: { image: 'meta-image.png' } )
 ```
 
 ### Setting via Front Matter
