@@ -37,7 +37,9 @@ module Middleman
         @meta_tags[:title] = full_title(@meta_tags[:title])
         html.push content_tag(:title, @meta_tags[:title])
         if @meta_tags[:canonical]
-          html.push tag(:link, rel: 'canonical', href: current_page.url)
+          html.push(
+            tag(:link, rel: 'canonical', href: "#{host}#{current_page.url}")
+          )
         end
 
 
