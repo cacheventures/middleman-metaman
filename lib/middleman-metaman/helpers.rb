@@ -19,8 +19,10 @@ module Middleman
         end
 
         # get meta from translation
-        t_page = current_page.url.gsub('-', '_').gsub('/', '.')
-        t_key = "#{t_page}.meta"
+        page_array = current_page.page_id.gsub('-', '_').split('/')
+        lang = page_array.first&.to_s&.gsub('_', '-')&.to_sym
+        page_array.shift if I18n.available_locales.include?(lang)
+        t_key = "#{page_array.join('.')}.meta"
         @meta_tags.merge!(I18n.t(t_key)) if I18n.exists?(t_key)
 
         # get meta from frontmatter
