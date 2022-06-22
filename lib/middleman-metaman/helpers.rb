@@ -13,8 +13,8 @@ module Middleman
         @meta_tags[:twitter] ||= ActiveSupport::HashWithIndifferentAccess.new
         @meta_tags[:canonical] = true
 
-        if data['meta_tags']
-          site_meta_tags = data['meta_tags'].with_indifferent_access
+        if app.data[:meta_tags]
+          site_meta_tags = app.data[:meta_tags].with_indifferent_access
           @meta_tags.merge!(site_meta_tags)
         end
 
