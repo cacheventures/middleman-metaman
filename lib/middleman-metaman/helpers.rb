@@ -139,9 +139,11 @@ module Middleman
         return nil unless image
         return image unless URI(image).scheme.nil?
 
-        # sometimes image_path has no leading slash
-        image_path = "/#{image_path(image)}" unless image_path(image)[0] == '/'
-        "#{host}#{image_path}"
+        path = image_path(image)
+        # sometimes path has no leading slash
+        path = "/#{path}" unless path[0] == '/'
+
+        "#{host}#{path}"
       end
 
       def default_value(scope, key, default = nil)
